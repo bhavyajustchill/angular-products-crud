@@ -11,6 +11,8 @@ import { formatDate } from 'src/methods/formatdate';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
+  addLocationCheckBoxValue: boolean = false;
+  editLocationCheckBoxValue: boolean = false;
   productsHeadings: string[] = Object.keys(productsData[0]);
   productsList: Product[] = [];
   editProductModal: string = '#editProductModal1';
@@ -37,7 +39,11 @@ export class ProductsComponent implements OnInit {
     const productCategory = (gid('product-category') as HTMLInputElement).value;
     const productQuantity = (gid('product-quantity') as HTMLInputElement).value;
     const productExpiry = (gid('product-expiry') as HTMLInputElement).value;
-    const productLocation = (gid('product-location') as HTMLInputElement).value;
+    const productLocation = this.addLocationCheckBoxValue
+      ? (gid('product-location-latitude') as HTMLInputElement).value +
+        ' / ' +
+        (gid('product-location-longitude') as HTMLInputElement).value
+      : (gid('product-location') as HTMLInputElement).value;
     const newProduct = {
       id: nextId,
       name: productName,
@@ -55,6 +61,8 @@ export class ProductsComponent implements OnInit {
     (gid('product-quantity') as HTMLInputElement).value = '';
     (gid('product-expiry') as HTMLInputElement).value = '';
     (gid('product-location') as HTMLInputElement).value = '';
+    (gid('product-location-latitude') as HTMLInputElement).value = '';
+    (gid('product-location-longitude') as HTMLInputElement).value = '';
   }
 
   edit(item: Product) {
@@ -80,10 +88,11 @@ export class ProductsComponent implements OnInit {
       parseInt(dateParts[1]) - 1,
       +dateParts[0]
     );
-    const expiryDateString = `${expiryDate.getFullYear()}-${expiryDate.getMonth() <= 10
-      ? '0' + (parseInt(expiryDate.getMonth().toString()) + 1)
-      : expiryDate.getMonth() + 1
-      }-${expiryDate.getDate()}`;
+    const expiryDateString = `${expiryDate.getFullYear()}-${
+      expiryDate.getMonth() <= 10
+        ? '0' + (parseInt(expiryDate.getMonth().toString()) + 1)
+        : expiryDate.getMonth() + 1
+    }-${expiryDate.getDate()}`;
     editExpiryDateInput.value = expiryDateString;
   }
 
@@ -135,12 +144,15 @@ export class ProductsComponent implements OnInit {
   delete(event: Event) {
     event.preventDefault();
     const index = this.productsList.findIndex((product) => {
-      return product.id === parseInt(localStorage.getItem("deleteProductIndex" + 1) || "-1");
+      return (
+        product.id ===
+        parseInt(localStorage.getItem('deleteProductIndex' + 1) || '-1')
+      );
     });
     let tempProductsList = this.productsList;
     tempProductsList.splice(index, 1);
     localStorage.setItem('products', JSON.stringify(tempProductsList));
     this.productsList = tempProductsList;
-    localStorage.removeItem("deleteProductIndex");
+    localStorage.removeItem('deleteProductIndex');
   }
 }

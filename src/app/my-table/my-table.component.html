@@ -1,0 +1,34 @@
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th *ngFor="let heading of columnHeadingArray">
+        {{
+        heading === "id"
+        ? "#"
+        : heading.charAt(0).toUpperCase() + heading.slice(1)
+        }}
+      </th>
+      <th class="text-center" colspan="2">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of gridData">
+      <td *ngFor="let heading of columnHeadingArray">
+        {{ data[heading] }}
+      </td>
+      <td class="text-end">
+        <button type="button" data-bs-toggle="modal" [attr.data-bs-target]="editModal"
+          class="btn btn-link btn-lg text-success" (click)="onEdit(data)">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </button>
+      </td>
+      <td class="text-start">
+        <button type="button" data-bs-toggle="modal" class="btn btn-link btn-lg text-danger"
+          [attr.data-bs-target]="deleteModal" (click)="onDelete(data)">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- [attr.data-bs-target]="editModal" -->

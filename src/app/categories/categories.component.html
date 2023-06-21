@@ -1,0 +1,85 @@
+<div class="card my-5">
+  <div class="card-header">
+    <h3>
+      Category List
+      <div class="float-end">
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="btn btn-primary">
+          New Category <i class="fa fa-plus-square" aria-hidden="true"></i>
+        </button>
+      </div>
+    </h3>
+  </div>
+  <div class="card-body px-5">
+    <app-my-table [columnHeadingArray]="categoriesHeadings" [gridData]="categoriesList" (editCallback)="edit($event)"
+      (confirmDeleteCallback)="confirmDelete($event)" [editModal]="editCategoryModal"
+      [deleteModal]="deleteCategoryModal"></app-my-table>
+  </div>
+</div>
+<!-- Add category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New Category</h1>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="category-name">Category Name</label>
+          <input type="text" id="category-name" class="form-control" placeholder="Enter Category Name" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" (click)="saveCategory($event)" id="btn_save_category" class="btn btn-primary"
+          data-bs-dismiss="modal">
+          Save Category
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit category Modal -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Category</h1>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="edit-category-name">Category Name</label>
+          <input type="text" id="edit-category-name" value="" class="form-control" placeholder="Enter Category Name" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" (click)="update($event)" id="btn_update_category" data-bs-dismiss="modal"
+          class="btn btn-success">
+          Update Category
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Delete Modal-->
+<div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
+
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <span id="delete-category-name"></span>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete($event)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "name": "iPhone 12",
+    "price": 79999,
+    "category": "Electronics",
+    "quantity": 500,
+    "expiry": "N/A",
+    "location": "California"
+  },
+  {
+    "id": 2,
+    "name": "Nike Air Max 270",
+    "price": 11999,
+    "category": "Clothing",
+    "quantity": 1500,
+    "expiry": "N/A",
+    "location": "UK"
+  },
+  {
+    "id": 3,
+    "name": "The Great Gatsby",
+    "price": 1039,
+    "category": "Books",
+    "quantity": 2000,
+    "expiry": "N/A",
+    "location": "Germany"
+  },
+  {
+    "id": 4,
+    "name": "Instant Pot Duo",
+    "price": 6399,
+    "category": "Home & Kitchen",
+    "quantity": 500,
+    "expiry": "18/06/2024",
+    "location": "Australia"
+  },
+  {
+    "id": 5,
+    "name": "Samsung Galaxy S21",
+    "price": 71999,
+    "category": "Electronics",
+    "quantity": 800,
+    "expiry": "N/A",
+    "location": "South Korea"
+  },
+  {
+    "id": 6,
+    "name": "Adidas Ultraboost",
+    "price": 14399,
+    "category": "Clothing",
+    "quantity": 1000,
+    "expiry": "N/A",
+    "location": "Spain"
+  },
+  {
+    "id": 7,
+    "name": "To Kill a Mockingbird",
+    "price": 798,
+    "category": "Books",
+    "quantity": 2500,
+    "expiry": "N/A",
+    "location": "India"
+  },
+  {
+    "id": 8,
+    "name": "KitchenAid Stand Mixer",
+    "price": 23999,
+    "category": "Home & Kitchen",
+    "quantity": 3000,
+    "expiry": "3 Years",
+    "location": "India"
+  },
+  {
+    "id": 9,
+    "name": "Sony PlayStation 5",
+    "price": 39999,
+    "category": "Electronics",
+    "quantity": 600,
+    "expiry": "N/A",
+    "location": "Japan"
+  },
+  {
+    "id": 10,
+    "name": "Levi's 501 Jeans",
+    "price": 4799,
+    "category": "Clothing",
+    "quantity": 5000,
+    "expiry": "N/A",
+    "location": "UAE"
+  },
+  {
+    "id": 11,
+    "name": "Harry Potter and the Sorcerer's Stone",
+    "price": 1199,
+    "category": "Books",
+    "quantity": 1100,
+    "expiry": "N/A",
+    "location": "Australia"
+  },
+  {
+    "id": 12,
+    "name": "Cuisinart 14-Cup Food Processor",
+    "price": 15999,
+    "category": "Home & Kitchen",
+    "quantity": 1600,
+    "expiry": "1 Year",
+    "location": "Canada"
+  },
+  {
+    "id": 13,
+    "name": "Bose QuietComfort 35 II",
+    "price": 23999,
+    "category": "Electronics",
+    "quantity": 400,
+    "expiry": "N/A",
+    "location": "Japan"
+  },
+  {
+    "id": 14,
+    "name": "Calvin Klein Boxer Briefs",
+    "price": 2399,
+    "category": "Clothing",
+    "quantity": 666,
+    "expiry": "N/A",
+    "location": "California"
+  },
+  {
+    "id": 15,
+    "name": "The Alchemist",
+    "price": 718,
+    "category": "Books",
+    "quantity": 900,
+    "expiry": "N/A",
+    "location": "USA"
+  },
+  {
+    "id": 16,
+    "name": "Roomba Robot Vacuum",
+    "price": 31999,
+    "category": "Home & Kitchen",
+    "quantity": 400,
+    "expiry": "2 Years",
+    "location": "India"
+  },
+  {
+    "id": 17,
+    "name": "LG OLED 4K TV",
+    "price": 119999,
+    "category": "Electronics",
+    "quantity": 700,
+    "expiry": "N/A",
+    "location": "Switzerland"
+  },
+  {
+    "id": 18,
+    "name": "Puma Essential T-Shirt",
+    "price": 1599,
+    "category": "Clothing",
+    "quantity": 1000,
+    "expiry": "N/A",
+    "location": "USA"
+  },
+  {
+    "id": 19,
+    "name": "The Catcher in the Rye",
+    "price": 959,
+    "category": "Books",
+    "quantity": 5200,
+    "expiry": "N/A",
+    "location": "Australia"
+  },
+  {
+    "id": 20,
+    "name": "Instant Pot Air Fryer Lid",
+    "price": 6399,
+    "category": "Home & Kitchen",
+    "quantity": 5010,
+    "expiry": "1.5 Years",
+    "location": "Myanmaar"
+  }
+]

@@ -183,45 +183,37 @@
           <input type="date" class="form-control" id="edit-product-expiry" />
         </div>
         <div class="form-group">
-          <div class="row">
-            <div class="col-6">
-              <label for="product-location">
-                {{
-                  addLocationCheckBoxValue
-                    ? "Latitude and Longitude"
-                    : "Location"
-                }}
-              </label>
-            </div>
-            <div class="col-6 float-end text-end">
-              <input
-                type="checkbox"
-                class="me-1"
-                [(ngModel)]="editLocationCheckBoxValue"
-              />Toggle
-            </div>
-          </div>
+          <label for="product-location">
+            <input
+              type="checkbox"
+              class="me-1"
+              [(ngModel)]="editLocationCheckBoxValue"
+            />
+            {{
+              editLocationCheckBoxValue ? "Latitude and Longitude" : "Location"
+            }}
+          </label>
           <div class="input-group mt-1">
             <input
               type="text"
               id="edit-product-location"
               class="form-control"
               placeholder="Enter Location"
-              *ngIf="!editLocationCheckBoxValue"
+              [hidden]="editLocationCheckBoxValue"
             />
             <input
               type="text"
               id="edit-product-location-latitude"
               class="form-control me-2"
               placeholder="Enter Latitude"
-              *ngIf="editLocationCheckBoxValue"
+              [hidden]="!editLocationCheckBoxValue"
             />
             <input
               type="text"
               id="edit-product-location-longitude"
               class="form-control ms-2"
               placeholder="Enter Longitude"
-              *ngIf="editLocationCheckBoxValue"
+              [hidden]="!editLocationCheckBoxValue"
             />
           </div>
         </div>

@@ -76,11 +76,28 @@ export class ProductsComponent implements OnInit {
     let editQuantityInput = dqs('#edit-product-quantity') as HTMLInputElement;
     let editExpiryDateInput = dqs('#edit-product-expiry') as HTMLInputElement;
     let editLocationInput = dqs('#edit-product-location') as HTMLInputElement;
+
     editNameInput.value = product.name;
     editPriceInput.value = product.price.toString();
     bindDropdown('edit-product-category', item.id);
     editQuantityInput.value = product.quantity.toString();
-    editLocationInput.value = product.location;
+    if (product.location.includes(' / ')) {
+      this.editLocationCheckBoxValue = true;
+      let latLong = product.location.split(' / ');
+      console.log(latLong);
+      let editLatitudeInput = dqs(
+        '#edit-product-location-latitude'
+      ) as HTMLInputElement;
+      let editLongitudeInput = dqs(
+        '#edit-product-location-longitude'
+      ) as HTMLInputElement;
+      console.log(editLatitudeInput);
+      editLatitudeInput.value = latLong[0];
+      editLongitudeInput.value = latLong[1];
+    } else {
+      this.editLocationCheckBoxValue = false;
+      editLocationInput.value = product.location;
+    }
     const dateParts =
       (product.expiry && product.expiry.split('/')) || '01/01/1970'.split('/');
     const expiryDate = new Date(

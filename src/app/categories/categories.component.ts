@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import categoriesData from '../../data/categories.json';
 import { Category } from 'src/interfaces';
 import { gid, dqs } from 'src/methods/shortmethods';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-categories',
@@ -12,7 +18,12 @@ export class CategoriesComponent implements OnInit {
   categoriesHeadings: string[] = Object.keys(categoriesData[0]);
   categoriesList: Category[] = [];
   editCategoryModal: string = '#editCategoryModal';
-  deleteCategoryModal: string = "#deleteCategoryModal";
+  deleteCategoryModal: string = '#deleteCategoryModal';
+  addCategoryForm!: FormGroup;
+  addCategoryFormSubmitted: boolean = false;
+
+  constructor(private formBuilder: FormBuilder) {}
+
   ngOnInit(): void {
     if (localStorage.getItem('categories')) {
       this.categoriesList = JSON.parse(
@@ -22,9 +33,11 @@ export class CategoriesComponent implements OnInit {
       this.categoriesList = categoriesData;
       localStorage.setItem('categories', JSON.stringify(this.categoriesList));
     }
+    this.addCategoryForm = this.formBuilder.group({
+      categoryName: ['', Validators.required],
+    });
   }
-  saveCategory(event: Event) {
-    event.preventDefault();
+  saveCategory() {
     const nextId = this.categoriesList[this.categoriesList.length - 1].id + 1;
     const categoryName = (gid('category-name') as HTMLInputElement).value;
     const newCategory = {
@@ -78,12 +91,24 @@ export class CategoriesComponent implements OnInit {
   delete(event: Event) {
     event.preventDefault();
     const index = this.categoriesList.findIndex((category) => {
-      return category.id === parseInt((localStorage.getItem('deleteCategoryIndex' + 1)) || "-1");
+      return (
+        category.id ===
+        parseInt(localStorage.getItem('deleteCategoryIndex' + 1) || '-1')
+      );
     });
     let tempCategoriesList = this.categoriesList;
     tempCategoriesList.splice(index, 1);
     localStorage.setItem('categories', JSON.stringify(tempCategoriesList));
     this.categoriesList = tempCategoriesList;
-    localStorage.removeItem("deleteCategoryIndex");
+    localStorage.removeItem('deleteCategoryIndex');
+  }
+
+  onSubmitAddCategoryForm() {
+    this.addCategoryFormSubmitted = true;
+    if (this.addCategoryForm.invalid) {
+      console.log('Hi!');
+      return;
+    }
+    this.saveCategory();
   }
 }

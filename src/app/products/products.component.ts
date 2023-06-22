@@ -4,6 +4,7 @@ import productsData from '../../data/products.json';
 import { Product } from 'src/interfaces';
 import { gid, dqs } from 'src/methods/shortmethods';
 import { formatDate } from 'src/methods/formatdate';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
@@ -17,6 +18,13 @@ export class ProductsComponent implements OnInit {
   productsList: Product[] = [];
   editProductModal: string = '#editProductModal1';
   deleteProductModal: string = '#deleteProductModal';
+  addProductForm!: FormGroup;
+  updateProductForm!: FormGroup;
+  addProductFormSubmitted: boolean = false;
+  updateProductFormSubmitted: boolean = false;
+
+  constructor(private formBuilder: FormBuilder) {}
+
   ngOnInit(): void {
     if (localStorage.getItem('products')) {
       this.productsList = JSON.parse(localStorage.getItem('products') || '{}');
@@ -24,6 +32,36 @@ export class ProductsComponent implements OnInit {
       this.productsList = productsData;
       localStorage.setItem('products', JSON.stringify(this.productsList));
     }
+    this.addProductForm = this.formBuilder.group({
+      productName: ['', Validators.required],
+      productPrice: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      productCategory: ['', Validators.required],
+      productQuantity: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]+$')],
+      ],
+    });
+    this.updateProductForm = this.formBuilder.group({
+      editProductName: ['', Validators.required],
+      editProductPrice: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]+$')],
+      ],
+      editProductQuantity: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]+$')],
+      ],
+    });
+  }
+
+  get editProductName() {
+    return this.updateProductForm.get('editProductName');
+  }
+  get editProductPrice() {
+    return this.updateProductForm.get('editProductPrice');
+  }
+  get editProductQuantity() {
+    return this.updateProductForm.get('editProductQuantity');
   }
 
   clickAddProductButton(event: Event) {
@@ -31,8 +69,8 @@ export class ProductsComponent implements OnInit {
     bindDropdown('product-category');
   }
 
-  addProduct(event: Event) {
-    event.preventDefault();
+  addProduct(event?: Event) {
+    //event.preventDefault();
     const nextId = this.productsList[this.productsList.length - 1].id + 1;
     const productName = (gid('product-name') as HTMLInputElement).value;
     const productPrice = (gid('product-price') as HTMLInputElement).value;
@@ -60,23 +98,32 @@ export class ProductsComponent implements OnInit {
     (gid('product-category') as HTMLInputElement).value = '';
     (gid('product-quantity') as HTMLInputElement).value = '';
     (gid('product-expiry') as HTMLInputElement).value = '';
-    (gid('product-location') as HTMLInputElement).value = '';
-    (gid('product-location-latitude') as HTMLInputElement).value = '';
-    (gid('product-location-longitude') as HTMLInputElement).value = '';
+    if (this.addLocationCheckBoxValue) {
+      (gid('product-location-latitude') as HTMLInputElement).value = '';
+      (gid('product-location-longitude') as HTMLInputElement).value = '';
+    } else {
+      (gid('product-location') as HTMLInputElement).value = '';
+    }
+    this.addLocationCheckBoxValue = false;
   }
 
   edit(item: Product) {
-    const tempIndex = this.productsList.findIndex((product) => {
-      return product.id === item.id;
-    });
+    const tempIndex = this.productsList.findIndex(
+      (product) => product.id === item.id
+    );
     let product = this.productsList[tempIndex];
+    console.log('product', product);
     localStorage.setItem('productIndex', tempIndex.toString());
     let editNameInput = dqs('#edit-product-name') as HTMLInputElement;
     let editPriceInput = dqs('#edit-product-price') as HTMLInputElement;
     let editQuantityInput = dqs('#edit-product-quantity') as HTMLInputElement;
     let editExpiryDateInput = dqs('#edit-product-expiry') as HTMLInputElement;
     let editLocationInput = dqs('#edit-product-location') as HTMLInputElement;
-
+    this.updateProductForm.patchValue({ editProductName: product.name });
+    this.updateProductForm.patchValue({ editProductPrice: product.price });
+    this.updateProductForm.patchValue({
+      editProductQuantity: product.quantity,
+    });
     editNameInput.value = product.name;
     editPriceInput.value = product.price.toString();
     bindDropdown('edit-product-category', item.id);
@@ -113,8 +160,7 @@ export class ProductsComponent implements OnInit {
     editExpiryDateInput.value = expiryDateString;
   }
 
-  update(event: Event) {
-    event.preventDefault();
+  update() {
     const tempIndex: number = parseInt(localStorage.getItem('productIndex')!);
     const tempId: number = this.productsList[tempIndex].id;
     let tempProductsList = this.productsList;
@@ -181,5 +227,30 @@ export class ProductsComponent implements OnInit {
     localStorage.setItem('products', JSON.stringify(tempProductsList));
     this.productsList = tempProductsList;
     localStorage.removeItem('deleteProductIndex');
+  }
+  onSubmitAddProductForm() {
+    this.addProductFormSubmitted = true;
+    if (this.addProductForm.invalid) {
+      return;
+    }
+    this.addProduct();
+  }
+
+  onSubmitUpdateProductForm() {
+    this.updateProductFormSubmitted = true;
+    console.log('this.updateProductForm', this.updateProductForm.value);
+    if (this.updateProductForm.invalid) {
+      console.log('this.updateProductForm', this.updateProductForm.invalid);
+      return;
+    }
+    this.update();
+  }
+
+  cancelButtonClick(event: Event) {
+    event.preventDefault();
+    this.addProductForm.controls['productName'].setErrors(null);
+    this.addProductForm.controls['productPrice'].setErrors(null);
+    this.addProductForm.controls['productCategory'].setErrors(null);
+    this.addProductForm.controls['productQuantity'].setErrors(null);
   }
 }

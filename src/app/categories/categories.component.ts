@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import categoriesData from '../../data/categories.json';
 import { Category } from 'src/interfaces';
 import { gid, dqs } from 'src/methods/shortmethods';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-categories',
@@ -20,7 +15,9 @@ export class CategoriesComponent implements OnInit {
   editCategoryModal: string = '#editCategoryModal';
   deleteCategoryModal: string = '#deleteCategoryModal';
   addCategoryForm!: FormGroup;
+  updateCategoryForm!: FormGroup;
   addCategoryFormSubmitted: boolean = false;
+  updateCategoryFormSubmitted: boolean = false;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -36,7 +33,15 @@ export class CategoriesComponent implements OnInit {
     this.addCategoryForm = this.formBuilder.group({
       categoryName: ['', Validators.required],
     });
+    this.updateCategoryForm = this.formBuilder.group({
+      editCategoryName: ['', Validators.required],
+    });
   }
+
+  get editCategoryName() {
+    return this.updateCategoryForm.get('editCategoryName');
+  }
+
   saveCategory() {
     const nextId = this.categoriesList[this.categoriesList.length - 1].id + 1;
     const categoryName = (gid('category-name') as HTMLInputElement).value;
@@ -56,10 +61,10 @@ export class CategoriesComponent implements OnInit {
     localStorage.setItem('categoryIndex', tempIndex.toString());
     let editInput = dqs('#edit-category-name') as HTMLInputElement;
     editInput.value = category.name;
+    this.updateCategoryForm.patchValue({ editCategoryName: category.name });
   }
 
-  update(event: Event) {
-    event.preventDefault();
+  update() {
     const tempIndex: number = parseInt(
       localStorage.getItem('categoryIndex') || '0'
     );
@@ -106,9 +111,19 @@ export class CategoriesComponent implements OnInit {
   onSubmitAddCategoryForm() {
     this.addCategoryFormSubmitted = true;
     if (this.addCategoryForm.invalid) {
-      console.log('Hi!');
       return;
     }
     this.saveCategory();
+  }
+  onSubmitUpdateCategoryForm() {
+    this.updateCategoryFormSubmitted = true;
+    if (this.updateCategoryForm.invalid) {
+      return;
+    }
+    this.update();
+  }
+  cancelButtonClick(event: Event) {
+    event.preventDefault();
+    this.addCategoryForm.controls['categoryName'].setErrors(null);
   }
 }

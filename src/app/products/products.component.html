@@ -40,94 +40,216 @@
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Add Product</h1>
       </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="product-name">Product Name</label>
-          <input
-            type="text"
-            id="product-name"
-            class="form-control"
-            placeholder="Enter Product Name"
-          />
-        </div>
-        <div class="form-group">
-          <label for="product-price">Product Price</label>
-          <input
-            type="text"
-            id="product-price"
-            class="form-control"
-            placeholder="Enter Product Price"
-          />
-        </div>
-        <div class="form-group">
-          <label for="product-category">Product Category</label>
-          <select id="product-category" class="form-select">
-            <option value="Select Category">Select Category</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="product-quantity">Product Quantity</label>
-          <input
-            type="text"
-            id="product-quantity"
-            class="form-control"
-            placeholder="Enter Product Quantity"
-          />
-        </div>
-        <div class="form-group">
-          <label for="product-expiry">Expiry Date</label>
-          <input type="date" id="product-expiry" class="form-control" />
-        </div>
-        <div class="form-group">
-          <label for="product-location">
-            <input
-              type="checkbox"
-              class="me-1"
-              [(ngModel)]="addLocationCheckBoxValue"
-            />
-            {{
-              addLocationCheckBoxValue ? "Latitude and Longitude" : "Location"
-            }}
-          </label>
-          <div class="input-group mt-1">
+      <form [formGroup]="addProductForm" (ngSubmit)="onSubmitAddProductForm()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="product-name">Product Name</label>
             <input
               type="text"
-              id="product-location"
+              formControlName="productName"
+              id="product-name"
+              [ngClass]="{
+                'is-invalid':
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productName'].errors
+              }"
               class="form-control"
-              placeholder="Enter Location"
-              [hidden]="addLocationCheckBoxValue"
+              placeholder="Enter Product Name"
             />
+            <div
+              class="text-danger"
+              *ngIf="
+                addProductFormSubmitted &&
+                addProductForm.controls['productName'].errors
+              "
+            >
+              <div
+                *ngIf="
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productName'].errors['required']
+                "
+              >
+                Product Name is required!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="product-price">Product Price</label>
             <input
               type="text"
-              id="product-location-latitude"
-              class="form-control me-2"
-              placeholder="Enter Latitude"
-              [hidden]="!addLocationCheckBoxValue"
+              formControlName="productPrice"
+              [ngClass]="{
+                'is-invalid':
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productPrice'].errors
+              }"
+              id="product-price"
+              class="form-control"
+              placeholder="Enter Product Price"
             />
+            <div
+              class="text-danger"
+              *ngIf="
+                addProductFormSubmitted &&
+                addProductForm.controls['productPrice'].errors
+              "
+            >
+              <div
+                *ngIf="
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productPrice'].errors['required']
+                "
+              >
+                Product Price is required!
+              </div>
+              <div
+                *ngIf="
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productPrice'].errors['pattern']
+                "
+              >
+                Product Price is invalid!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="product-category">Product Category</label>
+            <select
+              formControlName="productCategory"
+              id="product-category"
+              [ngClass]="{
+                'is-invalid':
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productCategory'].errors
+              }"
+              class="form-select"
+            >
+              <option value="">Select Category</option>
+            </select>
+            <div
+              class="text-danger"
+              *ngIf="
+                addProductFormSubmitted &&
+                addProductForm.controls['productCategory'].errors
+              "
+            >
+              <div
+                *ngIf="
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productCategory'].errors['required']
+                "
+              >
+                Product Category is required!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="product-quantity">Product Quantity</label>
             <input
               type="text"
-              id="product-location-longitude"
-              class="form-control ms-2"
-              placeholder="Enter Longitude"
-              [hidden]="!addLocationCheckBoxValue"
+              formControlName="productQuantity"
+              id="product-quantity"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productQuantity'].errors
+              }"
+              placeholder="Enter Product Quantity"
             />
+            <div
+              class="text-danger"
+              *ngIf="
+                addProductFormSubmitted &&
+                addProductForm.controls['productQuantity'].errors
+              "
+            >
+              <div
+                *ngIf="
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productQuantity'].errors['required']
+                "
+              >
+                Product Quantity is required!
+              </div>
+              <div
+                *ngIf="
+                  addProductFormSubmitted &&
+                  addProductForm.controls['productQuantity'].errors['pattern']
+                "
+              >
+                Product Quantity is invalid!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="product-expiry">Expiry Date</label>
+            <input type="date" id="product-expiry" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="product-location">
+              <input
+                type="checkbox"
+                class="me-1"
+                [(ngModel)]="addLocationCheckBoxValue"
+                [ngModelOptions]="{ standalone: true }"
+              />
+              {{
+                addLocationCheckBoxValue ? "Latitude and Longitude" : "Location"
+              }}
+            </label>
+            <div class="input-group mt-1">
+              <input
+                type="text"
+                id="product-location"
+                class="form-control"
+                placeholder="Enter Location"
+                *ngIf="!addLocationCheckBoxValue"
+              />
+              <input
+                type="text"
+                id="product-location-latitude"
+                class="form-control me-2"
+                placeholder="Enter Latitude"
+                *ngIf="addLocationCheckBoxValue"
+              />
+              <input
+                type="text"
+                id="product-location-longitude"
+                class="form-control ms-2"
+                placeholder="Enter Longitude"
+                *ngIf="addLocationCheckBoxValue"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-          Cancel
-        </button>
-        <button
-          type="button"
-          id="btn_save_product"
-          data-bs-dismiss="modal"
-          class="btn btn-primary"
-          (click)="addProduct($event)"
-        >
-          Save Product
-        </button>
-      </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            (click)="cancelButtonClick($event)"
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            id="btn_save_product"
+            [attr.data-bs-dismiss]="
+              addProductFormSubmitted &&
+              !addProductForm.controls['productName'].errors &&
+              !addProductForm.controls['productPrice'].errors &&
+              !addProductForm.controls['productCategory'].errors &&
+              !addProductForm.controls['productQuantity'].errors
+                ? 'modal'
+                : ''
+            "
+            class="btn btn-primary"
+          >
+            Save Product
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -144,94 +266,199 @@
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Product</h1>
       </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="edit-product-name">Product Name</label>
-          <input
-            type="text"
-            id="edit-product-name"
-            class="form-control"
-            placeholder="Enter Product Name"
-          />
-        </div>
-        <div class="form-group">
-          <label for="edit-product-price">Product Price</label>
-          <input
-            type="text"
-            id="edit-product-price"
-            class="form-control"
-            placeholder="Enter Product Price"
-          />
-        </div>
-        <div class="form-group">
-          <label for="edit-product-category">Product Category</label>
-          <select id="edit-product-category" class="form-select">
-            <option value="Select Category">Select Category</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="edit-product-quantity">Product Quantity</label>
-          <input
-            type="text"
-            id="edit-product-quantity"
-            class="form-control"
-            placeholder="Enter Product Quantity"
-          />
-        </div>
-        <div class="form-group">
-          <label for="edit-product-expiry">Expiry Date</label>
-          <input type="date" class="form-control" id="edit-product-expiry" />
-        </div>
-        <div class="form-group">
-          <label for="product-location">
-            <input
-              type="checkbox"
-              class="me-1"
-              [(ngModel)]="editLocationCheckBoxValue"
-            />
-            {{
-              editLocationCheckBoxValue ? "Latitude and Longitude" : "Location"
-            }}
-          </label>
-          <div class="input-group mt-1">
+      <form
+        [formGroup]="updateProductForm"
+        (ngSubmit)="onSubmitUpdateProductForm()"
+      >
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="edit-product-name">Product Name</label>
             <input
               type="text"
-              id="edit-product-location"
+              [ngClass]="{
+                'is-invalid':
+                  updateProductFormSubmitted &&
+                  updateProductForm.controls['editProductName'].errors
+              }"
+              formControlName="editProductName"
+              id="edit-product-name"
               class="form-control"
-              placeholder="Enter Location"
-              [hidden]="editLocationCheckBoxValue"
+              placeholder="Enter Product Name"
             />
+            <div
+              class="text-danger"
+              *ngIf="
+                updateProductFormSubmitted &&
+                updateProductForm.controls['editProductName'].errors
+              "
+            >
+              <div
+                *ngIf="
+                  updateProductFormSubmitted &&
+                  updateProductForm.controls['editProductName'].errors[
+                    'required'
+                  ]
+                "
+              >
+                Product Name is required!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="edit-product-price">Product Price</label>
             <input
+              [ngClass]="{
+                'is-invalid':
+                  updateProductFormSubmitted &&
+                  updateProductForm.controls['editProductPrice'].errors
+              }"
               type="text"
-              id="edit-product-location-latitude"
-              class="form-control me-2"
-              placeholder="Enter Latitude"
-              [hidden]="!editLocationCheckBoxValue"
+              formControlName="editProductPrice"
+              id="edit-product-price"
+              class="form-control"
+              placeholder="Enter Product Price"
             />
+            <div
+              class="text-danger"
+              *ngIf="
+                updateProductFormSubmitted &&
+                updateProductForm.controls['editProductPrice'].errors
+              "
+            >
+              <div
+                *ngIf="
+                  updateProductFormSubmitted &&
+                  updateProductForm.controls['editProductPrice'].errors[
+                    'required'
+                  ]
+                "
+              >
+                Product Price is required!
+              </div>
+              <div
+                *ngIf="
+                  updateProductFormSubmitted &&
+                  updateProductForm.controls['editProductPrice'].errors[
+                    'pattern'
+                  ]
+                "
+              >
+                Product Price is invalid!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="edit-product-category">Product Category</label>
+            <select id="edit-product-category" class="form-select">
+              <option value="Select Category">Select Category</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-product-quantity">Product Quantity</label>
             <input
+              [ngClass]="{
+                'is-invalid':
+                  updateProductFormSubmitted &&
+                  updateProductForm.controls['editProductQuantity'].errors
+              }"
+              formControlName="editProductQuantity"
               type="text"
-              id="edit-product-location-longitude"
-              class="form-control ms-2"
-              placeholder="Enter Longitude"
-              [hidden]="!editLocationCheckBoxValue"
+              id="edit-product-quantity"
+              class="form-control"
+              placeholder="Enter Product Quantity"
             />
+            <div
+              class="text-danger"
+              *ngIf="
+                updateProductFormSubmitted &&
+                updateProductForm.controls['editProductQuantity'].errors
+              "
+            >
+              <div
+                *ngIf="
+                  updateProductFormSubmitted &&
+                  updateProductForm.controls['editProductQuantity'].errors[
+                    'required'
+                  ]
+                "
+              >
+                Product Quantity is required!
+              </div>
+              <div
+                *ngIf="
+                  updateProductFormSubmitted &&
+                  updateProductForm.controls['editProductQuantity'].errors[
+                    'pattern'
+                  ]
+                "
+              >
+                Product Quantity is invalid!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="edit-product-expiry">Expiry Date</label>
+            <input type="date" class="form-control" id="edit-product-expiry" />
+          </div>
+          <div class="form-group">
+            <label for="product-location">
+              <input
+                type="checkbox"
+                class="me-1"
+                [(ngModel)]="editLocationCheckBoxValue"
+                [ngModelOptions]="{ standalone: true }"
+              />
+              {{
+                editLocationCheckBoxValue
+                  ? "Latitude and Longitude"
+                  : "Location"
+              }}
+            </label>
+            <div class="input-group mt-1">
+              <input
+                type="text"
+                id="edit-product-location"
+                class="form-control"
+                placeholder="Enter Location"
+                [hidden]="editLocationCheckBoxValue"
+              />
+              <input
+                type="text"
+                id="edit-product-location-latitude"
+                class="form-control me-2"
+                placeholder="Enter Latitude"
+                [hidden]="!editLocationCheckBoxValue"
+              />
+              <input
+                type="text"
+                id="edit-product-location-longitude"
+                class="form-control ms-2"
+                placeholder="Enter Longitude"
+                [hidden]="!editLocationCheckBoxValue"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-          Cancel
-        </button>
-        <button
-          type="button"
-          data-bs-dismiss="modal"
-          (click)="update($event)"
-          id="btn_update_product"
-          class="btn btn-success"
-        >
-          Update Product
-        </button>
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [attr.data-bs-dismiss]="
+              !updateProductForm.controls['editProductName'].errors &&
+              !updateProductForm.controls['editProductPrice'].errors &&
+              !updateProductForm.controls['editProductQuantity'].errors
+                ? 'modal'
+                : ''
+            "
+            id="btn_update_product"
+            class="btn btn-success"
+          >
+            Update Product
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

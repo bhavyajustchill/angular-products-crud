@@ -69,8 +69,7 @@ export class ProductsComponent implements OnInit {
     bindDropdown('product-category');
   }
 
-  addProduct(event?: Event) {
-    //event.preventDefault();
+  addProduct() {
     const nextId = this.productsList[this.productsList.length - 1].id + 1;
     const productName = (gid('product-name') as HTMLInputElement).value;
     const productPrice = (gid('product-price') as HTMLInputElement).value;

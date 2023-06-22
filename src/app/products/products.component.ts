@@ -126,8 +126,16 @@ export class ProductsComponent implements OnInit {
       .value;
     const productExpiry = (gid('edit-product-expiry') as HTMLInputElement)
       .value;
-    const productLocation = (gid('edit-product-location') as HTMLInputElement)
-      .value;
+    let productLocation = '';
+    if (this.editLocationCheckBoxValue) {
+      productLocation =
+        (gid('edit-product-location-latitude') as HTMLInputElement).value +
+        ' / ' +
+        (gid('edit-product-location-longitude') as HTMLInputElement).value;
+    } else {
+      productLocation = (gid('edit-product-location') as HTMLInputElement)
+        .value;
+    }
     const newProduct = {
       id: tempId,
       name: productName,
@@ -147,6 +155,8 @@ export class ProductsComponent implements OnInit {
     (gid('edit-product-quantity') as HTMLInputElement).value = '';
     (gid('edit-product-expiry') as HTMLInputElement).value = '';
     (gid('edit-product-location') as HTMLInputElement).value = '';
+    (gid('edit-product-location-latitude') as HTMLInputElement).value = '';
+    (gid('edit-product-location-longitude') as HTMLInputElement).value = '';
   }
   confirmDelete(item: Product) {
     const tempIndex = this.productsList.findIndex((product) => {
